@@ -39,8 +39,8 @@ jobs:
     - name: test
       working-directory: ${{github.workspace}}/build
       run: |
-        ./test/test_forwarddiff
-        valgrind --error-exitcode=1 --leak-check=full ./test/test_forwarddiff
+        ./test/test_differentia
+        valgrind --error-exitcode=1 --leak-check=full ./test/test_differentia
         python ../test/test_jax.py
         ./test/test_sparse
         valgrind --error-exitcode=1 --leak-check=full ./test/test_sparse

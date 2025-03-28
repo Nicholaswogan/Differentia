@@ -1,4 +1,4 @@
-module forwarddiff_const
+module differentia_const
   use iso_fortran_env, only: wp => real64
   implicit none
   public

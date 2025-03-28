@@ -1,6 +1,6 @@
-module forwarddiff_derivative
-  use forwarddiff_const, only: wp
-  use forwarddiff_dual, only: dual
+module differentia_derivative
+  use differentia_const, only: wp
+  use differentia_dual, only: dual
   implicit none
   private
 
@@ -103,7 +103,7 @@ contains
   end subroutine
 
   function create_JacobianWorkMemory(n, jt, bandwidth, blocksize, err) result(wrk)
-    use forwarddiff_const, only: DenseJacobian, BandedJacobian, BlockDiagonalJacobian
+    use differentia_const, only: DenseJacobian, BandedJacobian, BlockDiagonalJacobian
     integer, intent(in) :: n
     integer, optional, intent(in) :: jt
     integer, optional, intent(in) :: bandwidth
@@ -157,7 +157,7 @@ contains
   !> at the input `x`, with support for some sparse Jacobians. Only can
   !> consider square Jacobians.
   subroutine jacobian(fcn, x, f, dfdx, wrk, jt, bandwidth, blocksize, err)
-    use forwarddiff_const, only: DenseJacobian, BandedJacobian, BlockDiagonalJacobian
+    use differentia_const, only: DenseJacobian, BandedJacobian, BlockDiagonalJacobian
     procedure(jacobian_sig) :: fcn !! Input function mapping a vector to a vector
     real(wp), intent(in) :: x(:)
     real(wp), intent(out) :: f(:) !! `fcn` evaluated at `x`

@@ -1,5 +1,5 @@
-program test_forwarddiff
-  use forwarddiff, only: wp, derivative, gradient, jacobian
+program test_differentia
+  use differentia, only: wp, derivative, gradient, jacobian
   implicit none
 
   call test_dual()
@@ -44,7 +44,7 @@ contains
   end subroutine
 
   function func_operators(x) result(res)
-    use forwarddiff
+    use differentia
     type(dual), intent(in) :: x
     type(dual) :: res
 
@@ -58,7 +58,7 @@ contains
   end function
 
   function func_intrinsics1(x) result(res)
-    use forwarddiff
+    use differentia
     type(dual), intent(in) :: x
     type(dual) :: res
 
@@ -74,7 +74,7 @@ contains
   end function
 
   function func_intrinsics2(x) result(res)
-    use forwarddiff
+    use differentia
     type(dual), intent(in) :: x
     type(dual) :: res
 
@@ -91,21 +91,21 @@ contains
   end function
 
   function func_grad1(x) result(res)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: x(:)
     type(dual) :: res
     res = x(1)*x(1)*x(2) + x(1) + x(2)
   end function
 
   function func_grad2(x) result(res)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: x(:)
     type(dual) :: res
     res = sum(x*3.14_wp)
   end function
 
   subroutine test_jacobian()
-    use forwarddiff, only: JacobianWorkMemory
+    use differentia, only: JacobianWorkMemory
     real(wp) :: u(3), f(3), dfdu(3,3)
     real(wp) :: f1(3), dfdu1(3,3)
     character(:), allocatable :: err
@@ -138,7 +138,7 @@ contains
   end subroutine
 
   subroutine rhs_rober_dual(u, du)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: u(:)
     type(dual), target, intent(out) :: du(:)
 

@@ -1,9 +1,9 @@
-name = "forwarddiff"
+name = "differentia"
 author = "Nicholas Wogan"
 maintainer = "Nicholas Wogan"
 license = "MIT"
 description = "Forward mode automatic differentiation for Fortran."
-homepage = "https://github.com/Nicholaswogan/forwarddiff"
+homepage = "https://github.com/Nicholaswogan/differentia"
 
 [fortran]
 source-form = "default"

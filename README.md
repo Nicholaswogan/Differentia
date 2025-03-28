@@ -1,6 +1,6 @@
-# ForwardDiff
+# Differentia
 
-ForwardDiff allows for the computation of derivatives, gradients and Jacobians of Fortran subroutines or functions using forward mode automatic differentiation (AD). To create this package I borrowed code, syntax and inspiration from [DNAD](https://github.com/joddlehod/dnad), [ForwardDiff.jl](https://github.com/JuliaDiff/ForwardDiff.jl), and [a lecture series by Chris Rackauckas](https://book.sciml.ai/).
+Differentia allows for the computation of derivatives, gradients and Jacobians of Fortran subroutines or functions using forward mode automatic differentiation (AD). To create this package I borrowed code, syntax and inspiration from [DNAD](https://github.com/joddlehod/dnad), [ForwardDiff.jl](https://github.com/JuliaDiff/ForwardDiff.jl), and [a lecture series by Chris Rackauckas](https://book.sciml.ai/).
 
 ## Examples
 
@@ -10,7 +10,7 @@ Below is a simple demo that computes the derivative of the scalar function $f(x)
 
 ```fortran
 program main
-  use forwarddiff, only: wp, derivative
+  use differentia, only: wp, derivative
   implicit none
 
   call example()
@@ -27,7 +27,7 @@ contains
   end subroutine
 
   function fcn(x) result(f)
-    use forwarddiff
+    use differentia
     type(dual), intent(in) :: x
     type(dual) :: f
     f = sin(x)*exp(x)*x**2.0_wp + 1.0_wp
@@ -52,7 +52,7 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 # run test
-./test/test_forwarddiff
+./test/test_differentia
 ```
 
 <!-- ## Sparse Jacobians

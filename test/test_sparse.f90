@@ -1,6 +1,6 @@
 
 program test_sparse
-  use forwarddiff, only: wp, jacobian
+  use differentia, only: wp, jacobian
   implicit none
 
   call test_banded()
@@ -10,7 +10,7 @@ program test_sparse
 contains
 
   subroutine test_banded()
-    use forwarddiff, only: BandedJacobian
+    use differentia, only: BandedJacobian
     integer, parameter :: nz = 6
     integer, parameter :: bandwidth = 3
     real(wp) :: u(nz), f(nz), dfdu(bandwidth,nz)
@@ -48,7 +48,7 @@ contains
   end subroutine
 
   subroutine rhs_banded_dual(u, du)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: u(:)
     type(dual), target, intent(out) :: du(:)
     integer :: i
@@ -62,7 +62,7 @@ contains
   end subroutine
 
   subroutine test_blockdiagonal1()
-    use forwarddiff, only: BlockDiagonalJacobian
+    use differentia, only: BlockDiagonalJacobian
     integer, parameter :: nz = 6
     integer, parameter :: blocksize = 2
     real(wp) :: u(nz), f(nz), dfdu(blocksize,nz)
@@ -100,7 +100,7 @@ contains
   end subroutine
 
   subroutine test_blockdiagonal2()
-    use forwarddiff, only: BlockDiagonalJacobian
+    use differentia, only: BlockDiagonalJacobian
     integer, parameter :: nz = 6
     integer, parameter :: blocksize = 3
     real(wp) :: u(nz), f(nz), dfdu(blocksize,nz)
@@ -138,7 +138,7 @@ contains
   end subroutine
 
   subroutine rhs_blocked1_dual(u, du)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: u(:)
     type(dual), target, intent(out) :: du(:)
     integer :: i
@@ -155,7 +155,7 @@ contains
   end subroutine
 
   subroutine rhs_blocked2_dual(u, du)
-    use forwarddiff
+    use differentia
     type(dual), target, intent(in) :: u(:)
     type(dual), target, intent(out) :: du(:)
     integer :: i

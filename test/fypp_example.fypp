@@ -3,7 +3,7 @@
 #:set TYPES_NAMES = list(zip(TYPES, NAMES))
 
 program example
-  use forwarddiff, only: wp, jacobian
+  use differentia, only: wp, jacobian
   implicit none
   interface rhs_robber
     procedure :: rhs_rober_real
@@ -30,7 +30,7 @@ contains
   #:for TYPE1, NAME in TYPES_NAMES
   subroutine rhs_rober_${NAME}$(u, du)
     #:if NAME == 'dual'
-    use forwarddiff
+    use differentia
     #:endif
     ${TYPE1}$, target, intent(in) :: u(:)
     ${TYPE1}$, target, intent(out) :: du(:)
