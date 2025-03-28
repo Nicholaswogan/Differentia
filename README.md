@@ -82,3 +82,7 @@ This package has the following limitations:
 - The package is not compatible with all Fortran intrinsic functions. If you identify an intrinsic that should be added, please submit a pull request.
 
 - The `jacobian` routine can only compute square Jacobians.
+  
+## The name "Differentia"
+
+The 17th-century mathematician Leibniz developed the common $dx$ notation in calculus, indicating a infinitesimal change in $x$. The $d$ in $dx$ is derived from the Latin word "differentia" meaning difference.
