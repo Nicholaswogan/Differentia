@@ -140,7 +140,7 @@ contains
   subroutine rhs_rober_dual(u, du)
     use differentia
     type(dual), target, intent(in) :: u(:)
-    type(dual), target, intent(out) :: du(:)
+    type(dual), target, intent(inout) :: du(:)
 
     real(wp), parameter :: k1 = 0.04_wp, &
                            k2 = 3.0e7_wp, &

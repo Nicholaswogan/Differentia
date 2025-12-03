@@ -42,8 +42,8 @@ module differentia_derivative
     !> mapping a vector to a vector.
     subroutine jacobian_sig(x, f)
       import :: dual
-      type(dual), target, intent(in) :: x(:) !! Input vector
-      type(dual), target, intent(out) :: f(:) !! Resulting vector
+      type(dual), target, intent(in)    :: x(:) !! Input vector
+      type(dual), target, intent(inout) :: f(:) !! Resulting vector
     end subroutine
   end interface
 
@@ -68,7 +68,7 @@ contains
     procedure(gradient_sig) :: fcn !! Input function mapping a vector to a scalar
     real(wp), intent(in) :: x(:)
     real(wp), intent(out) :: f !! `fcn` evaluated at `x`
-    real(wp), intent(out) :: dfdx(:) !! The gradient of `fcn` at `x`
+    real(wp), intent(inout) :: dfdx(:) !! The gradient of `fcn` at `x`
     !> If an error occurs, `err` will be allocated with an error message.
     character(:), allocatable, intent(out) :: err
 
@@ -160,8 +160,8 @@ contains
     use differentia_const, only: DenseJacobian, BandedJacobian, BlockDiagonalJacobian
     procedure(jacobian_sig) :: fcn !! Input function mapping a vector to a vector
     real(wp), intent(in) :: x(:)
-    real(wp), intent(out) :: f(:) !! `fcn` evaluated at `x`
-    real(wp), intent(out) :: dfdx(:,:) 
+    real(wp), intent(inout) :: f(:) !! `fcn` evaluated at `x`
+    real(wp), intent(inout) :: dfdx(:,:) 
     !! The Jacobian of `fcn` evaluated at `x`. For dense Jacobians (`jt == DenseJacobian`),
     !! `dfdx` has shape (n,n) where n is `size(x)`. The first dimension indexes rows 
     !! of the Jacobian, while the second dimension indexes columns. For example,
@@ -262,8 +262,8 @@ contains
   subroutine jacobian_dense(fcn, x, f, dfdx, wrk, err)
     procedure(jacobian_sig) :: fcn
     real(wp), intent(in) :: x(:)
-    real(wp), intent(out) :: f(:)
-    real(wp), intent(out) :: dfdx(:,:)
+    real(wp), intent(inout) :: f(:)
+    real(wp), intent(inout) :: dfdx(:,:)
     type(JacobianWorkMemory), target, intent(inout) :: wrk
     character(:), allocatable, intent(out) :: err
 
@@ -310,8 +310,8 @@ contains
   subroutine jacobian_banded(fcn, x, f, dfdx, wrk, bandwidth, err)
     procedure(jacobian_sig) :: fcn
     real(wp), intent(in) :: x(:)
-    real(wp), intent(out) :: f(:)
-    real(wp), intent(out) :: dfdx(:,:)
+    real(wp), intent(inout) :: f(:)
+    real(wp), intent(inout) :: dfdx(:,:)
     type(JacobianWorkMemory), target, intent(inout) :: wrk
     integer, intent(in) :: bandwidth
     character(:), allocatable, intent(out) :: err
@@ -403,8 +403,8 @@ contains
   subroutine jacobian_blockdiagonal(fcn, x, f, dfdx, wrk, blocksize, err)
     procedure(jacobian_sig) :: fcn
     real(wp), intent(in) :: x(:)
-    real(wp), intent(out) :: f(:)
-    real(wp), intent(out) :: dfdx(:,:)
+    real(wp), intent(inout) :: f(:)
+    real(wp), intent(inout) :: dfdx(:,:)
     type(JacobianWorkMemory), target, intent(inout) :: wrk
     integer, intent(in) :: blocksize
     character(:), allocatable, intent(out) :: err
