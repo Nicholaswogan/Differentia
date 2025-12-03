@@ -6,6 +6,10 @@ add_executable(test_sparse test_sparse.f90)
 target_link_libraries(test_sparse differentia)
 target_include_directories(test_sparse PUBLIC ${CMAKE_Fortran_MODULE_DIRECTORY})
 
+add_executable(bench_differentia bench_differentia.f90)
+target_link_libraries(bench_differentia differentia)
+target_include_directories(bench_differentia PUBLIC ${CMAKE_Fortran_MODULE_DIRECTORY})
+
 find_program(FYPP fypp REQUIRED)
 include(${PROJECT_SOURCE_DIR}/cmake/fypp.cmake)
 

@@ -2,6 +2,7 @@ add_library(differentia
   differentia_const.f90
   differentia_dual.f90
   differentia_derivative.f90
+  differentia_inplace.f90
   differentia.f90
 )
 if ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
