@@ -55,17 +55,19 @@ contains
 
   subroutine dense_fun(x, f)
     use differentia, only: dual
+    use differentia_inplace, only: sin_dual, add_dual
     type(dual), target, intent(in) :: x(:)
     type(dual), target, intent(inout) :: f(:)
-    integer :: i, ndv
-
-    ndv = size(x)
+    type(dual) :: tmp(size(x))
+    integer :: i
 
     call matvec_dual(A, x, f)
-
-    do i = 1, ndv
-      f(i)%val = f(i)%val + sin(x(i)%val)
-      f(i)%der = f(i)%der + cos(x(i)%val)*x(i)%der
+    do i = 1, size(x)
+      if (.not. allocated(tmp(i)%der)) allocate(tmp(i)%der(size(x)))
+    end do
+    call sin_dual(x, tmp)
+    do i = 1, size(x)
+      call add_dual(f(i), tmp(i), f(i))
     end do
   end subroutine dense_fun
 

@@ -9,9 +9,12 @@ module differentia_inplace
   public :: mult_dual, mult_dual_real
   public :: sum_dual
   public :: matvec_dual
+  public :: sin_dual
 
 contains
 
+  !> Zero out the values and derivatives of a dual array in place.
+  !> Assumes `y%der` is already allocated for every element.
   subroutine zero_dual(y)
     type(dual), intent(inout) :: y(:)
     integer :: i
@@ -25,6 +28,8 @@ contains
     end do
   end subroutine
 
+  !> In-place `res = a + b` without allocating new derivative storage.
+  !> Allocates `res%der` if needed to match the inputs.
   subroutine add_dual(a, b, res)
     type(dual), intent(in)    :: a, b
     type(dual), intent(inout) :: res
@@ -40,6 +45,7 @@ contains
     res%der = a%der + b%der
   end subroutine
 
+  !> In-place `res = a + r` for real scalar `r`; no new allocations if `res%der` is present.
   subroutine add_dual_real(a, r, res)
     type(dual), intent(in)    :: a
     real(wp), intent(in)      :: r
@@ -56,6 +62,7 @@ contains
     res%der = a%der
   end subroutine
 
+  !> In-place `res = a * b` without allocating new derivative storage.
   subroutine mult_dual(a, b, res)
     type(dual), intent(in)    :: a, b
     type(dual), intent(inout) :: res
@@ -71,6 +78,7 @@ contains
     res%der = a%der * b%val + b%der * a%val
   end subroutine
 
+  !> In-place `res = a * r` for real scalar `r`; no new allocations if `res%der` is present.
   subroutine mult_dual_real(a, r, res)
     type(dual), intent(in)    :: a
     real(wp), intent(in)      :: r
@@ -87,6 +95,7 @@ contains
     res%der = a%der * r
   end subroutine
 
+  !> In-place reduction `res = sum(vec)` for dual arrays without allocating in the loop.
   subroutine sum_dual(vec, res)
     type(dual), intent(in)    :: vec(:)
     type(dual), intent(inout) :: res
@@ -108,6 +117,8 @@ contains
     end do
   end subroutine
 
+  !> In-place matrix-vector multiply `y = A*x` for dual arrays.
+  !> Assumes `y%der` is allocated and sized to match `x%der`.
   subroutine matvec_dual(A, x, y)
     real(wp), intent(in)      :: A(:,:)
     type(dual), intent(in)    :: x(:)
@@ -133,5 +144,26 @@ contains
       end do
     end do
   end subroutine
+
+  !> In-place accumulation `y += sin(x)` for dual arrays.
+  !> Compute `y = sin(x)` in place for dual arrays.
+  !> Assumes `y%der` is allocated and sized to match `x%der`.
+  subroutine sin_dual(x, y)
+    type(dual), intent(in)    :: x(:)
+    type(dual), intent(inout) :: y(:)
+    integer :: i, ndv
+
+    if (size(x) /= size(y)) error stop "sin_dual: dimension mismatch"
+    if (size(x) == 0) return
+    if (.not. allocated(x(1)%der)) error stop "sin_dual: x%der not allocated"
+    if (.not. allocated(y(1)%der)) error stop "sin_dual: y%der not allocated"
+
+    ndv = size(x(1)%der)
+    do i = 1, size(x)
+      if (size(y(i)%der) /= ndv) error stop "sin_dual: y der size mismatch"
+      y(i)%val = sin(x(i)%val)
+      y(i)%der = cos(x(i)%val) * x(i)%der
+    end do
+  end subroutine sin_dual
 
 end module differentia_inplace

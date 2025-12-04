@@ -1,5 +1,6 @@
 using ForwardDiff
 using BenchmarkTools
+using Printf
 
 const N = 100
 const ITER = 1000
@@ -34,7 +35,7 @@ function run_bench(n::Int, iter::Int)
     end
     avg = total / iter
 
-    println("n=$(n), iterations=$(iter), avg_time_s=$(avg)")
+    @printf("n=%d, iterations=%d, avg_time_s=%1.5E\n", n, iter, avg)
 end
 
 run_bench(N, ITER)
